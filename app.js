@@ -82,13 +82,11 @@ function parar(){ //Frena el cronometro y despliega ingreso del usuario
 
 }
 
-
 function reiniciar(){
     document.getElementById("hms").innerHTML="00:00:00";
     h=0;m=0;s=0;
     document.querySelector(".start").addEventListener("click",cronometrar);
 }
-
 
 //ARRAY DE LAS IMAGENES ORDENADO CON SORT Y CON MATH EN RANDOM PARA EL ALETORIO
 imagenArray.sort(() => 0.7 - Math.random())
@@ -118,7 +116,6 @@ function crearTablero() {
     tablero.appendChild(imagenM)
     }
 }
-
 
 //CONTADOR DE CLIC HASTA GANAR O PERDER A LOS 30 CLICKS, ALERTA Y REINICIA EL JUEGO
 let pElement = document.getElementById("areaContador");
@@ -153,10 +150,9 @@ let contador = 0;
         // }
     }
 
-
     let resultadoGeneral = document.getElementById("resultadoGeneral")
 //REVISA EL RESULTADO DE LA ELECCION CON CON QUERY SELECTOR (VALIDA QUE LAS IMAGENES SEAN LAS MISMAS)
-function controlEleccion() {
+    function controlEleccion() {
     const imagenesM = document.querySelectorAll('img')
     const opcionUnoId = imagenID[0]
     const opcionDosId = imagenID[1]
@@ -170,9 +166,9 @@ function controlEleccion() {
     Toastify({
         text: "DISTE CLICK SOBRE LA MISMA IMAGEN",
         offset: {
-            y: 300 
+            y: 50 
           },
-        duration: 5000,
+        duration: 1000,
         position: "left",
         style: {
             background: "linear-gradient(to right, #b00000, #c98c3d)",
@@ -180,14 +176,14 @@ function controlEleccion() {
 
     }).showToast()
 
-}
+    }
     else if (imagenElegida[0] === imagenElegida[1]) {
     Toastify({
         text: "ENCONTRASTE DOS IMAGENES IGUALES",
         offset: {
-            y: 300 
+            y: 50 
           },
-        duration: 5000,
+        duration: 1000,
         position: "left",
         style: {
             background: "linear-gradient(to right, #00b09b, #96c93d)",
@@ -200,14 +196,14 @@ function controlEleccion() {
 
     ImagenGanadora.push(imagenElegida)
 
-} else {
+    } else {
     resultadoGeneral.innerText = 'Vuelve a Intentarlo!'
     Toastify({
         text: "SIN COINCIDENCIA, VUELVE A INTENTARLO",
         offset: {
-            y: 300 
+            y: 50 
           },
-        duration: 5000,
+        duration: 1000,
         position: "left",
         style: {
             background: "linear-gradient(to right, #0066ff, #3d7ac9)",
@@ -236,7 +232,7 @@ function controlEleccion() {
                     focusConfirm: false,
                     confirmButtonText: 'NO TE OLVIDES DE PONER TU NOMBRE PARA GUARDAR',
                   })    
-//****CODIGO VIEJO****
+    //****CODIGO VIEJO****
 
     // if  (ImagenGanadora.length === imagenArray.length/2) {
     //     parar();
@@ -256,10 +252,10 @@ function controlEleccion() {
 
     //     }         
     // }
-}
+    }
 
-//CUANDO DA VUELTA LA CARTA
-function cartaDadaVuelta() {
+    //CUANDO DA VUELTA LA CARTA
+    function cartaDadaVuelta() {
     let imagenMid = this.getAttribute('ID')
     imagenElegida.push(imagenArray[imagenMid].nombre)
     imagenID.push(imagenMid)
@@ -267,14 +263,14 @@ function cartaDadaVuelta() {
     //OPERADOR AND &&
     imagenElegida.length ===2 && setTimeout(controlEleccion, 300)
     //****CODIGO VIEJO****
-// if (imagenElegida.length ===2) {
-//     setTimeout(controlEleccion, 400)
-// }
-}
+    // if (imagenElegida.length ===2) {
+    //     setTimeout(controlEleccion, 400)
+    // }
+    }
 
-//GUARDADO EN STORAGE Y RECUPERACION DE DATOS
+    //GUARDADO EN STORAGE Y RECUPERACION DE DATOS
 
-class storageUsuarios {
+    class storageUsuarios {
     constructor(id, nombreUser, minutos,segundos, clicksUser, ImagenGanadora){
         this.id = id,
         this.nombreUser = nombreUser,
@@ -285,64 +281,63 @@ class storageUsuarios {
         }
         datosGuardados(){
         }
-}
+    }
 
+    let storageUsers = []
+    //OPERADOR TERNARIO
+    localStorage.getItem("storageUsers") ? storageUsers = JSON.parse(localStorage.getItem("storageUsers")) : localStorage.setItem("storageUsers", JSON.stringify(storageUsers))
 
- let storageUsers = []
- //OPERADOR TERNARIO
- localStorage.getItem("storageUsers") ? storageUsers = JSON.parse(localStorage.getItem("storageUsers")) : localStorage.setItem("storageUsers", JSON.stringify(storageUsers))
+    //CODIGO VIEJO
+    //  if(localStorage.getItem("storageUsers")){
+    //         storageUsers = JSON.parse(localStorage.getItem("storageUsers"))
+    //  }
+    //  else{
+    //     localStorage.setItem("storageUsers", JSON.stringify(storageUsers))
+    //  }
 
-//CODIGO VIEJO
-//  if(localStorage.getItem("storageUsers")){
-//         storageUsers = JSON.parse(localStorage.getItem("storageUsers"))
-//  }
-//  else{
-//     localStorage.setItem("storageUsers", JSON.stringify(storageUsers))
-//  }
+    let divRegistros = document.getElementById("registros")
+    let btnGuardar = document.getElementById("btnGuardar")
 
-let divRegistros = document.getElementById("registros")
-let btnGuardar = document.getElementById("btnGuardar")
+    btnGuardar.addEventListener("click", ()=>{
+    //OPERADOR TERNARIO
+    ImagenGanadora.length == 6 ? guardarRegistros(storageUsers) : alert("Primero jugar luego guardar")(location.reload())
 
-btnGuardar.addEventListener("click", ()=>{
- //OPERADOR TERNARIO
-ImagenGanadora.length == 6 ? guardarRegistros(storageUsers) : alert("Primero jugar luego guardar")(location.reload())
-
-//CODIGO VIEJO
-//     if (ImagenGanadora.length == 6){
-//         guardarRegistros(storageUsers)
-//     }else{
-//     alert("Primero jugar luego guardar")
-//     location.reload()
-// }
-})
-
-function mostrarRegistros(array){
-    divRegistros.innerHTML = ""
-    array.forEach((storageUsuarios)=>{
-        let nuevoRegistro = document.createElement("div")
-        nuevoRegistro.innerHTML = `<div class="container text-center">
-        <div class="row">
-          <div class="col">
-            ${storageUsuarios.nombreUser}
-          </div>
-          <div class="col">
-            ${storageUsuarios.minutos}:${storageUsuarios.segundos}
-          </div>
-          <div class="col">
-            ${storageUsuarios.clicksUser}
-          </div>
-        </div>
-      </div>`
-        divRegistros.append(nuevoRegistro)
+    //CODIGO VIEJO
+    //     if (ImagenGanadora.length == 6){
+    //         guardarRegistros(storageUsers)
+    //     }else{
+    //     alert("Primero jugar luego guardar")
+    //     location.reload()
+    // }
     })
-}
-let usuarioNew = document.getElementById("usuarioNew")
-function guardarRegistros(array){
-    let usuarioCreado = new storageUsuarios (array.length+1, usuarioNew.value, m, s, contador,ImagenGanadora)
-    array.push(usuarioCreado)
-    localStorage.setItem("storageUsers", JSON.stringify(array))
-    usuarioNew.value = ""
-    mostrarRegistros(array)
-}
-mostrarRegistros(storageUsers);
+
+    function mostrarRegistros(array){
+        divRegistros.innerHTML = ""
+        array.forEach((storageUsuarios)=>{
+            let nuevoRegistro = document.createElement("div")
+            nuevoRegistro.innerHTML = `<div class="container text-center">
+            <div class="row">
+            <div class="col">
+                ${storageUsuarios.nombreUser}
+            </div>
+            <div class="col">
+                ${storageUsuarios.minutos}:${storageUsuarios.segundos}
+            </div>
+            <div class="col">
+                ${storageUsuarios.clicksUser}
+            </div>
+            </div>
+        </div>`
+            divRegistros.append(nuevoRegistro)
+        })
+    }
+    let usuarioNew = document.getElementById("usuarioNew")
+    function guardarRegistros(array){
+        let usuarioCreado = new storageUsuarios (array.length+1, usuarioNew.value, m, s, contador,ImagenGanadora)
+        array.push(usuarioCreado)
+        localStorage.setItem("storageUsers", JSON.stringify(array))
+        usuarioNew.value = ""
+        mostrarRegistros(array)
+    }
+    mostrarRegistros(storageUsers);
 })
